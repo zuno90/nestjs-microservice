@@ -1,0 +1,18 @@
+####
+POST http://localhost:3000/orders
+Content-Type: application/json
+
+{
+    "name": "ZUNO",
+    "price": 696969,
+    "phone": "+84933663240"
+}
+
+####
+POST http://localhost:3001/auth/users
+Content-Type: application/json
+
+{
+    "email": "pnlan1406@gmail.com",
+    "password": "123456"
+}

@@ -1,0 +1,2 @@
+export const BILLING_SERVICE_NAME = "BILLING"
+export const AUTH_SERVICE_NAME = "AUTH"

@@ -1,0 +1,11 @@
+.git
+.gitignore
+.dockerignore
+
+dist.do
+node_modules
+
+.env
+
+.eslintrc.js
+.prettierrc
