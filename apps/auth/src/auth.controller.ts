@@ -15,7 +15,6 @@ export class AuthController {
     @Post("login")
     async login(@CurrentUser() user: User, @Res({ passthrough: true }) response: Response) {
         await this.authService.login(user, response)
-        console.log(user)
         response.send(user)
     }
 

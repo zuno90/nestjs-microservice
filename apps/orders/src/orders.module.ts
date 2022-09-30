@@ -7,7 +7,7 @@ import { OrdersController } from "./orders.controller"
 import { OrdersService } from "./orders.service"
 import { OrderRepository } from "./order.repository"
 import { Order, OrderSchema } from "./schemas/order.schema"
-import { BILLING_SERVICE_NAME } from "./constants/services"
+import { BILLING_SERVICE_NAME, MAIL_SERVICE_NAME } from "./constants/services"
 
 @Module({
     imports: [
@@ -19,7 +19,8 @@ import { BILLING_SERVICE_NAME } from "./constants/services"
         DatabaseModule,
         MongooseModule.forFeature([{ name: Order.name, schema: OrderSchema }]),
         RmqModule.register({ name: BILLING_SERVICE_NAME }),
-        AuthModule
+        RmqModule.register({ name: MAIL_SERVICE_NAME }),
+        AuthModule,
     ],
     controllers: [OrdersController],
     providers: [OrdersService, OrderRepository],

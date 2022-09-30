@@ -10,6 +10,6 @@ export class BillingService {
 
     bill(data: any) {
         this.logger.log("Billing... is", data)
+        console.log("data from billing service", data.request)
     }
 }
-

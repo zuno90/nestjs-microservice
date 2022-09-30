@@ -10,7 +10,7 @@ export class MailService {
 
     sendMailOrdered(data: any) {
         this.logger.log("Order successfully, mail will be transfered to", data)
-
+        console.log("data from mail service", data.user)
         // action to send mail
     }
 }

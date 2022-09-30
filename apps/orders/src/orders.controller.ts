@@ -16,7 +16,6 @@ export class OrdersController {
     @Post()
     @UseGuards(JwtAuthGuard)
     async createOrder(@Body() request: CreateOrderRequest, @Req() req: Request) {
-        console.log(req.user)
         return this.ordersService.createOrder(request, req.cookies?.Authentication)
     }
 }
