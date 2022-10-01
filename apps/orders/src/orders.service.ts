@@ -12,9 +12,11 @@ export class OrdersService {
         @Inject(BILLING_SERVICE_NAME) private billingClient: ClientProxy,
         @Inject(MAIL_SERVICE_NAME) private mailClient: ClientProxy
     ) {}
+
     getHello(): string {
         return "Hello World from Order service!"
     }
+    
     async createOrder(request: CreateOrderRequest, authentication: string) {
         const session = await this.orderRepository.startTransaction()
         try {
