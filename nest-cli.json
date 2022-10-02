@@ -42,7 +42,7 @@
             "entryFile": "main",
             "sourceRoot": "apps/mail/src",
             "compilerOptions": {
-                "assets": ["apps/mail/templates/**/*"],
+                "assets": ["templates/**/*"],
                 "watchAssets": true,
                 "tsConfigPath": "apps/mail/tsconfig.app.json"
             }

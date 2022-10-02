@@ -3,10 +3,10 @@ import { ConfigModule, ConfigService } from "@nestjs/config"
 import { AuthModule, RmqModule } from "@app/common"
 import { MailController } from "./mail.controller"
 import { MailService } from "./mail.service"
-import * as Joi from "joi"
 import { MailerModule } from "@nestjs-modules/mailer"
-import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter"
+import * as Joi from "joi"
 import { join } from "path"
+import { HandlebarsAdapter } from "@nestjs-modules/mailer/dist/adapters/handlebars.adapter"
 
 @Module({
     imports: [
@@ -15,11 +15,6 @@ import { join } from "path"
             validationSchema: Joi.object({
                 RABBIT_MQ_URI: Joi.string().required(),
                 RABBIT_MQ_MAIL_QUEUE: Joi.string().required(),
-                // email var
-                SENDGRID_HOST: Joi.string().required(),
-                SENDGRID_PORT: Joi.number().required(),
-                SENDGRID_USER: Joi.string().required(),
-                SENDGRID_PASS: Joi.string().required(),
             }),
             envFilePath: "./apps/mail/.env",
         }),
@@ -27,43 +22,32 @@ import { join } from "path"
         AuthModule,
         MailerModule.forRootAsync({
             imports: [ConfigModule],
-            useFactory: async (configService: ConfigService) => ({
+            useFactory: (configService: ConfigService) => ({
                 transport: {
-                    host: configService.get<string>("SENDGRID_HOST"),
-                    port: +configService.get<string>("SENDGRID_PORT"),
+                    service: "gmail",
+                    // host: configService.get<string>("GMAIL_HOST"),
+                    port: +configService.get<string>("GMAIL_PORT"),
                     ignoreTLS: true,
                     secure: false,
                     auth: {
-                        user: configService.get<string>("SENDGRID_USER"),
-                        pass: configService.get<string>("SENDGRID_PASS"),
+                        // type: "oauth2",
+                        // clientId: configService.get<string>("GMAIL_CLIENT_ID"),
+                        // clientSecret: configService.get<string>("GMAIL_CLIENT_SECRET"),
+                        // refreshToken: configService.get<string>("GMAIL_REFRESH_TOKEN"),
+                        // accessUrl: configService.get<string>("GMAIL_REDIRECT_URI"),
+                        user: configService.get<string>("GMAIL_USER_NAME"),
+                        pass: configService.get<string>("GMAIL_PASSWORD"),
                     },
                 },
-                defaults: { from: '"No Reply" <noreply@example.com>' },
+
+                defaults: { from: "pnlan1406@gmail.com" },
                 template: {
-                    dir: join(__dirname, "/templates"),
+                    dir: join(__dirname, "templates"),
                     adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
                     options: { strict: true },
                 },
             }),
             inject: [ConfigService],
-            // useFactory: async () => ({
-            //     transport: {
-            //         host: "smtp.sendgrid.net",
-            //         port: 25,
-            //         ignoreTLS: true,
-            //         secure: false,
-            //         auth: {
-            //             user: "apikey",
-            //             pass: "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",
-            //         },
-            //     },
-            //     defaults: { from: '"No Reply" <noreply@example.com>' },
-            //     template: {
-            //         dir: join(__dirname, "/templates"),
-            //         adapter: new HandlebarsAdapter(), // or new PugAdapter() or new EjsAdapter()
-            //         options: { strict: true },
-            //     },
-            // }),
         }),
     ],
     controllers: [MailController],
