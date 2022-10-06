@@ -3,7 +3,7 @@ import { Controller, Get, UseGuards } from "@nestjs/common"
 import { Ctx, EventPattern, Payload, RmqContext } from "@nestjs/microservices"
 import { MailService } from "./mail.service"
 
-@Controller()
+@Controller("mail")
 export class MailController {
     constructor(private readonly mailService: MailService, private readonly rmqService: RmqService) {}
 

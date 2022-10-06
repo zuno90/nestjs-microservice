@@ -13,10 +13,15 @@ export class OrdersService {
         @Inject(MAIL_SERVICE_NAME) private mailClient: ClientProxy
     ) {}
 
-    getHello(): string {
-        return "Hello World from Order service!"
+    async getOrders() {
+        try {
+            const orders = await this.orderRepository.find({})
+            return orders
+        } catch (err) {
+            throw err
+        }
     }
-    
+
     async createOrder(request: CreateOrderRequest, authentication: string) {
         const session = await this.orderRepository.startTransaction()
         try {

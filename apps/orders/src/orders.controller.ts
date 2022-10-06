@@ -4,18 +4,19 @@ import { Request } from "express"
 import { CreateOrderRequest } from "./dto/create-order.request"
 import { OrdersService } from "./orders.service"
 
-@Controller("orders")
+@Controller()
 export class OrdersController {
     constructor(private readonly ordersService: OrdersService) {}
 
-    @Get()
-    getHello(): string {
-        return this.ordersService.getHello()
+    @Get("orders")
+    @UseGuards(JwtAuthGuard)
+    getOrders() {
+        return this.ordersService.getOrders()
     }
 
     @Post()
     @UseGuards(JwtAuthGuard)
-    async createOrder(@Body() request: CreateOrderRequest, @Req() req: Request) {
+    createOrder(@Body() request: CreateOrderRequest, @Req() req: Request) {
         return this.ordersService.createOrder(request, req.cookies?.Authentication)
     }
 }

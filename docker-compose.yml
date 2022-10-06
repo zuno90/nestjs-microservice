@@ -85,7 +85,7 @@ services:
             - "5672:5672"
 
     mongodb-primary:
-        container_name: main_mongo
+        container_name: mongodb-primary
         image: docker.io/bitnami/mongodb:5.0
         environment:
             - MONGODB_ADVERTISED_HOSTNAME=mongodb-primary
@@ -98,7 +98,7 @@ services:
             - "27017:27017"
 
     mongodb-secondary:
-        container_name: second_mongo
+        container_name: mongodb-secondary
         image: docker.io/bitnami/mongodb:5.0
         depends_on:
             - mongodb-primary
@@ -110,7 +110,7 @@ services:
             - MONGODB_REPLICA_SET_KEY=replicasetkey123
 
     mongodb-arbiter:
-        container_name: arbiter_mongo
+        container_name: mongodb-arbiter
         image: docker.io/bitnami/mongodb:5.0
         depends_on:
             - mongodb-primary

@@ -14,7 +14,7 @@ export class MailService {
         this.logger.log("Order successfully, mail will be transfered to", data)
         console.log("data from mail service laaaa", data.user)
         // action to send mail
-        const x = await this.mailerService.sendMail({
+        await this.mailerService.sendMail({
             to: "pnlan1406@gmail.com", // change with data.user.email
             subject: "Mail test from nestjs",
             template: "./test",
@@ -23,12 +23,6 @@ export class MailService {
                 url: "https://tinhte.vn",
             },
         })
-
-        console.log("gui doneeeee", x)
-
-        // return {
-        //     success: true,
-        //     msg: `Email is sent to pnlan1406@gmail.com`,
-        // }
+        // update status
     }
 }
