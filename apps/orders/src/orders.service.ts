@@ -22,6 +22,15 @@ export class OrdersService {
         }
     }
 
+    async getOrder(id: string) {
+        try {
+            const orders = await this.orderRepository.findOne({ id })
+            return orders
+        } catch (err) {
+            throw err
+        }
+    }
+
     async createOrder(request: CreateOrderRequest, authentication: string) {
         const session = await this.orderRepository.startTransaction()
         try {

@@ -15,13 +15,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
                     return request?.Authentication
                 },
             ]),
-            secretOrKey: configService.get("JWT_SECRET"),
+            secretOrKey: configService.get<string>("JWT_SECRET"),
         })
     }
 
     async validate({ userId }: TokenPayload) {
         try {
-            return await this.usersService.getUser({ _id: new Types.ObjectId(userId) })
+            return await this.usersService.getUserValidation({ _id: new Types.ObjectId(userId) })
         } catch (err) {
             throw new UnauthorizedException()
         }

@@ -9,20 +9,22 @@ export class UsersService {
     constructor(private readonly usersRepository: UsersRepository) {}
 
     async createUser(request: CreateUserRequest) {
-        await this.validateCreateUserRequest(request)
-        const user = await this.usersRepository.create({
-            ...request,
-            password: await bcrypt.hash(request.password, 10),
-        })
-        return user
+        try {
+            await this.validateCreateUserRequest(request)
+            const user = await this.usersRepository.create({
+                ...request,
+                password: await bcrypt.hash(request.password, 10),
+            })
+            return user
+        } catch (err) {
+            throw err
+        }
     }
 
     private async validateCreateUserRequest(request: CreateUserRequest) {
         let user: User
-        try {
-            user = await this.usersRepository.findOne({ email: request.email })
-        } catch (err) {}
 
+        user = await this.usersRepository.findOne({ email: request.email })
         if (user) throw new UnprocessableEntityException("Email already exists!")
     }
 
@@ -33,7 +35,11 @@ export class UsersService {
         return user
     }
 
-    async getUser(getUserArgs: Partial<User>): Promise<User> {
-        return this.usersRepository.findOne(getUserArgs)
+    async getUserValidation(getUserArgs: Partial<User>): Promise<User> {
+        try {
+            return this.usersRepository.findOne(getUserArgs)
+        } catch (err) {
+            throw err
+        }
     }
 }
